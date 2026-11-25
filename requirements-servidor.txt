@@ -1,0 +1,4 @@
+# Lo mínimo para GRABAR (lo que se instala en el servidor)
+lightstreamer-client-lib>=2.2
+skyfield>=1.49
+certifi

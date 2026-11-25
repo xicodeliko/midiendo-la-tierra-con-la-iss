@@ -1,0 +1,12 @@
+# Entorno virtual y cachés de Python
+.venv/
+__pycache__/
+
+# Descargas automáticas (efemérides de ~17 MB y órbita TLE): se bajan solas
+cache/
+
+# Datos sin comprimir: al repo solo van los .csv.gz
+datos/*.csv
+
+# macOS
+.DS_Store

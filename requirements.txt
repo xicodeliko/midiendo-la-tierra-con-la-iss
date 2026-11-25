@@ -1,0 +1,4 @@
+# Todo: grabar + analizar/graficar (lo que usas en tu PC)
+-r requirements-servidor.txt
+pandas
+matplotlib
