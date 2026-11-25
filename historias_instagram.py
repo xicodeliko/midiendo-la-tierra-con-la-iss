@@ -25,7 +25,7 @@ import numpy as np
 from matplotlib.patches import Circle, Polygon
 
 import medir_tierra
-from graficar import CARPETA_DATOS, cargar_datos, columnas_que_terminan_en
+from graficar import CARPETA_DATOS, cargar_datos, columnas_que_terminan_en, dibujar_continentes
 from posicion_iss import RADIO_TIERRA_KM, SeguidorISS
 
 CARPETA_SALIDA = Path(__file__).parent / "instagram"
@@ -334,6 +334,7 @@ def historia_7_senal(df):
 
     muestra = df.iloc[::10]
     eje = fig.add_axes([0.04, 0.36, 0.92, 0.24])
+    dibujar_continentes(eje, relleno="#26306A", borde="#4A58A8")
     con = muestra[muestra["con_senal"] == 1]
     sin = muestra[muestra["con_senal"] == 0]
     eje.scatter(con["longitud"], con["latitud"], s=3, color=CIAN, alpha=0.6, lw=0)

@@ -29,6 +29,7 @@ Tip: con 1 fila por segundo, un día son ~86.400 filas. Si copias los CSV del
 servidor a tu PC (carpeta datos/), este script los lee todos juntos.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -39,6 +40,10 @@ from sensores import SENSORES
 
 CARPETA_DATOS = Path(__file__).parent / "datos"
 CARPETA_GRAFICOS = Path(__file__).parent / "graficos"
+
+# Contornos de los continentes: Natural Earth 1:110m (dominio público,
+# https://www.naturalearthdata.com). Es un GeoJSON: polígonos de [lon, lat].
+ARCHIVO_CONTINENTES = Path(__file__).parent / "mapa" / "continentes_110m.geojson"
 MINUTOS_ALREDEDOR_DEL_ZOOM = 3
 
 
@@ -178,15 +183,26 @@ def figura_zoom_penumbra(df: pd.DataFrame) -> bool:
     return True
 
 
+def dibujar_continentes(eje, relleno: str = "0.88", borde: str = "0.6"):
+    """Dibuja los continentes de fondo (debajo de la traza de la ISS)."""
+    datos = json.loads(ARCHIVO_CONTINENTES.read_text(encoding="utf-8"))
+    for pais in datos["features"]:
+        # Un polígono GeoJSON = [contorno exterior, agujeros...]; dibujamos el exterior.
+        contorno = pais["geometry"]["coordinates"][0]
+        longitudes = [punto[0] for punto in contorno]
+        latitudes = [punto[1] for punto in contorno]
+        eje.fill(longitudes, latitudes, facecolor=relleno, edgecolor=borde, linewidth=0.6, zorder=0)
+
+
 def figura_mapa(df: pd.DataFrame):
     """
-    Traza de la ISS sobre la Tierra (longitud vs latitud). Sin mapa de fondo,
-    pero se adivinan los continentes por la forma de la órbita.
+    Traza de la ISS sobre la Tierra (longitud vs latitud), con los continentes de fondo.
     """
     # Con 86.400 puntos el gráfico se pone lento: tomamos 1 de cada 10 segundos.
     muestra = df.iloc[::10]
 
     fig, eje = plt.subplots(figsize=(13, 6.5), layout="constrained")
+    dibujar_continentes(eje)
     grupos = [
         ("Al sol", (muestra["estado_luz"] == "sol") & (muestra["con_senal"] == 1), "gold"),
         ("En sombra", (muestra["estado_luz"] != "sol") & (muestra["con_senal"] == 1), "midnightblue"),

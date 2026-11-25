@@ -19,8 +19,8 @@ import numpy as np
 
 import historias_instagram as hi
 import medir_tierra
-from graficar import (CARPETA_DATOS, cargar_datos, columnas_que_terminan_en, etiqueta_corta,
-                      pintar_fondo_por_luz)
+from graficar import (CARPETA_DATOS, cargar_datos, columnas_que_terminan_en, dibujar_continentes,
+                      etiqueta_corta, pintar_fondo_por_luz)
 from posicion_iss import RADIO_TIERRA_KM, SeguidorISS
 
 CARPETA_SALIDA = Path(__file__).parent / "instagram" / "sin_texto"
@@ -183,6 +183,7 @@ def mapa(df):
     muestra = df.iloc[::10]  # 1 de cada 10 segundos basta para ver la traza
     fig = lienzo()
     eje = fig.add_axes([0.1, 0.27, 0.85, 0.36])
+    dibujar_continentes(eje, relleno="#3B4659", borde="#7A889E")
     grupos = [
         ("Al sol", (muestra["estado_luz"] == "sol") & (muestra["con_senal"] == 1), "gold"),
         ("En sombra", (muestra["estado_luz"] != "sol") & (muestra["con_senal"] == 1), "tab:blue"),

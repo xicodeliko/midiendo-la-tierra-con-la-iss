@@ -136,3 +136,4 @@ Usa ~25 MB por día (sin comprimir).
 - Telemetría: NASA *ISS Live* (servidor público Lightstreamer `push.lightstreamer.com`, adapter `ISSLIVE`).
 - Códigos de sensores: proyecto [ISS Mimic](https://github.com/ISS-Mimic/Mimic) (`Telemetry/ISS_Public_Telemetry.xlsx`).
 - Órbita: TLE de [CelesTrak](https://celestrak.org); efemérides JPL DE421 vía [Skyfield](https://rhodesmill.org/skyfield/).
+- Contornos de los continentes: [Natural Earth](https://www.naturalearthdata.com) 1:110m (dominio público), en `mapa/`.
